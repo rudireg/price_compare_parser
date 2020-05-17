@@ -108,7 +108,13 @@ QString SpecialToolRu::findArticleInBlock(const QList<QString> blocks, QString a
 {
     foreach(QString block, blocks) {
         RString tmp = block;
+
         QString title = tmp.cut_str_to_str("<div class=\"name\">", "</div>");
+        if (title.contains(article)) {
+            return block;
+        }
+
+        title = tmp.cut_str_to_str("<span class=\"art\">", "</span>");
         if (title.contains(article)) {
             return block;
         }
