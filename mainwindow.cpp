@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->sitesToParse.append("http://pf-tool.ru/");
     this->sitesToParse.append("http://www.freemen.su/");
     this->sitesToParse.append("https://sl33.ru/");
+    this->sitesToParse.append("https://special-tool.ru/");
 
     createActions();
     createMenu();

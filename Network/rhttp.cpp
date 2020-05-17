@@ -103,6 +103,8 @@ bool RHttp::get(const QString &uri)
     QObject::connect(reply, SIGNAL(sslErrors(QList<QSslError>)),
                      this, SLOT(slotSslErrors(QList<QSslError>)));
 
+    QObject::connect(this->manager, &QNetworkAccessManager::sslErrors, this, [reply](){reply->ignoreSslErrors();});
+
     timer.start(this->m_timeOut);   //timeout
     loop.exec(); //Waiting for request finished
 
@@ -243,6 +245,8 @@ bool RHttp::post(const QString &uri, const QByteArray &data)
     }
     QObject::connect(&timer, SIGNAL(timeout()), &loop, SLOT(quit()));
     QObject::connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+    QObject::connect(this->manager, &QNetworkAccessManager::sslErrors, this, [reply](){reply->ignoreSslErrors();});
+
     timer.start(this->m_timeOut);   //timeout
     loop.exec(); //Waiting for request finished
 

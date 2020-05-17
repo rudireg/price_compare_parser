@@ -51,6 +51,8 @@ void Worker::initParsers(QList<Site> sites)
             parser = new FreeMenSu;
         } else if (site.url == "https://sl33.ru/") {
             parser = new Sl33;
+        } else if (site.url == "https://special-tool.ru/") {
+            parser = new SpecialToolRu;
         } else {
             parser = nullptr;
         }

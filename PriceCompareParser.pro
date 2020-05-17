@@ -25,6 +25,7 @@ SOURCES += \
     Parser/rstring.cpp \
     Parser/rustehnikaruparser.cpp \
     Parser/sl33.cpp \
+    Parser/specialtoolru.cpp \
     Ui/generaltab.cpp \
     Ui/optionstab.cpp \
     main.cpp \
@@ -42,6 +43,7 @@ HEADERS += \
     Parser/rstring.h \
     Parser/rustehnikaruparser.h \
     Parser/sl33.h \
+    Parser/specialtoolru.h \
     Ui/generaltab.h \
     Ui/optionstab.h \
     mainwindow.h \
