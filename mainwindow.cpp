@@ -18,9 +18,12 @@ MainWindow::MainWindow(QWidget *parent)
     this->sitesToParse.append("https://www.rustehnika.ru/");
     this->sitesToParse.append("https://mactak-m.ru/");
     this->sitesToParse.append("http://pf-tool.ru/");
+
     this->sitesToParse.append("http://www.freemen.su/");
     this->sitesToParse.append("https://sl33.ru/");
+
     this->sitesToParse.append("https://special-tool.ru/");
+    this->sitesToParse.append("https://autocheckers.ru/");
 
     createActions();
     createMenu();
@@ -39,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(this->master, &Master::increaseDone, this, &MainWindow::increaseDone);
     QObject::connect(this->master, &Master::increaseNotFound, this, &MainWindow::increaseNotFound);
     QObject::connect(this->master, &Master::increaseError, this, &MainWindow::increaseError);
+    QObject::connect(this->master, &Master::increasePriceNotFound, this, &MainWindow::increasePriceNotFound);
     QObject::connect(this->master, &Master::increaseProgressBar, this, &MainWindow::increaseProgressBar);
     QObject::connect(this->master, &Master::addLog, this, &MainWindow::addLog);
     QObject::connect(this->master, &Master::addTableStatus, this, &MainWindow::addTableStatus);
@@ -197,6 +201,16 @@ void MainWindow::increaseError()
 }
 
 /**
+ * @brief MainWindow::increaseError
+ */
+void MainWindow::increasePriceNotFound()
+{
+    int count = this->generalTab->counters.priceNotFound->text().toInt();
+    count ++;
+    this->generalTab->counters.priceNotFound->setNum(count);
+}
+
+/**
  * @brief MainWindow::increaseDone
  */
 void MainWindow::increaseDone()
@@ -234,6 +248,7 @@ void MainWindow::clearCounters()
     this->generalTab->counters.errors->setNum(0);
     this->generalTab->counters.notFound->setNum(0);
     this->generalTab->counters.done->setNum(0);
+    this->generalTab->counters.priceNotFound->setNum(0);
     this->generalTab->counters.progressBar->setValue(0);
     this->generalTab->statusText->clear();
     this->generalTab->statusTable->clear();

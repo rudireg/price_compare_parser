@@ -11,6 +11,7 @@
 #include "Parser/freemensu.h"
 #include "Parser/sl33.h"
 #include "Parser/specialtoolru.h"
+#include "Parser/autocheckersru.h"
 
 /**
  * Структура хранит данные для рабочего потока

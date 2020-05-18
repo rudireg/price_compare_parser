@@ -53,6 +53,8 @@ void Worker::initParsers(QList<Site> sites)
             parser = new Sl33;
         } else if (site.url == "https://special-tool.ru/") {
             parser = new SpecialToolRu;
+        } else if (site.url == "https://autocheckers.ru/") {
+            parser = new AutoCheckersRu;
         } else {
             parser = nullptr;
         }

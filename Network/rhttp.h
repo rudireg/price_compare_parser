@@ -151,8 +151,8 @@ private:
 signals:
 
 public slots:
-
     void slotSslErrors(QList<QSslError> err);
+    void ignoreSslErrors(QNetworkReply *reply);
 };
 
 #endif // RHTTP_H

@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     Network/rhttp.cpp \
+    Parser/autocheckersru.cpp \
     Parser/autoscanersruparser.cpp \
     Parser/freemensu.cpp \
     Parser/mactacmru.cpp \
@@ -35,6 +36,7 @@ SOURCES += \
 
 HEADERS += \
     Network/rhttp.h \
+    Parser/autocheckersru.h \
     Parser/autoscanersruparser.h \
     Parser/freemensu.h \
     Parser/mactacmru.h \

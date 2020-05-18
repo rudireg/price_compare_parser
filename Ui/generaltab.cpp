@@ -75,13 +75,15 @@ QGroupBox* GeneralTab::createCounters()
     this->counters.total = new QLabel("0");
     this->counters.done = new QLabel("0");
     this->counters.notFound = new QLabel("0");
+    this->counters.priceNotFound = new QLabel("0");
     this->counters.errors = new QLabel("0");
 
     QGroupBox *box = new QGroupBox(tr("Счетчики"));
     QFormLayout *form = new QFormLayout;
     form->addRow(tr("Всего"), this->counters.total);
     form->addRow(tr("Готово"), this->counters.done);
-    form->addRow(tr("Не найдено"), this->counters.notFound);
+    form->addRow(tr("Артикуль не найден"), this->counters.notFound);
+    form->addRow(tr("Цена не найдена"), this->counters.priceNotFound);
     form->addRow(tr("Ошибки"), this->counters.errors);
     box->setLayout(form);
     return box;

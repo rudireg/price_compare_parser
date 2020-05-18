@@ -30,6 +30,7 @@ public slots:
     void increaseProgressBar();
     void addLog(const QString msg);
     void addTableStatus(int idThread, QString article, QString status, QString color);
+    void increasePriceNotFound();
 protected:
     QSettings m_settings;
     QAction *actExit;

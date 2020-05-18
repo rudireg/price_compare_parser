@@ -42,7 +42,6 @@ RHttp::~RHttp()
 
 bool RHttp::get(const QString &uri)
 {
-    QString zzz;
     //Clear
     this->m_inbuff.clear();
     this->m_httpStatusCode =0;
@@ -103,7 +102,8 @@ bool RHttp::get(const QString &uri)
     QObject::connect(reply, SIGNAL(sslErrors(QList<QSslError>)),
                      this, SLOT(slotSslErrors(QList<QSslError>)));
 
-    QObject::connect(this->manager, &QNetworkAccessManager::sslErrors, this, [reply](){reply->ignoreSslErrors();});
+//    QObject::connect(this->manager, &QNetworkAccessManager::sslErrors, this, [reply](){reply->ignoreSslErrors();});
+    QObject::connect(this->manager, &QNetworkAccessManager::sslErrors, this, &RHttp::ignoreSslErrors);
 
     timer.start(this->m_timeOut);   //timeout
     loop.exec(); //Waiting for request finished
@@ -126,16 +126,15 @@ bool RHttp::get(const QString &uri)
             QUrl reUrl = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
             if(reUrl.isRelative()) reUrl = url.resolved(reUrl).toString();
             reply->deleteLater();
-            zzz = reUrl.toString();
             return this->get(reUrl.toString());
         }
         else //Save request answer (inbuff)
         {
             if(this->m_httpStatusCode == 302 || this->m_httpStatusCode == 301 || this->m_httpStatusCode == 307)
                 this->m_Location302 = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
-            reply->deleteLater();
             this->m_inbuff = reply->readAll();
             this->m_listHeaders = &reply->rawHeaderPairs();
+            reply->deleteLater();
             return true;
         }
     }
@@ -145,6 +144,17 @@ bool RHttp::get(const QString &uri)
     reply->abort();
     reply->deleteLater();
     return false;
+}
+
+/**
+ * @brief RHttp::ignoreSslErrors
+ * @param reply
+ */
+void RHttp::ignoreSslErrors(QNetworkReply *reply)
+{
+    if (reply) {
+      reply->ignoreSslErrors();
+    }
 }
 
 void RHttp::slotSslErrors(QList<QSslError> err)
@@ -245,7 +255,8 @@ bool RHttp::post(const QString &uri, const QByteArray &data)
     }
     QObject::connect(&timer, SIGNAL(timeout()), &loop, SLOT(quit()));
     QObject::connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
-    QObject::connect(this->manager, &QNetworkAccessManager::sslErrors, this, [reply](){reply->ignoreSslErrors();});
+    QObject::connect(this->manager, &QNetworkAccessManager::sslErrors, this, &RHttp::ignoreSslErrors);
+//    QObject::connect(this->manager, &QNetworkAccessManager::sslErrors, this, [reply](){reply->ignoreSslErrors();});
 
     timer.start(this->m_timeOut);   //timeout
     loop.exec(); //Waiting for request finished
@@ -274,9 +285,9 @@ bool RHttp::post(const QString &uri, const QByteArray &data)
         {
             if(this->m_httpStatusCode == 302 || this->m_httpStatusCode == 301)
                 this->m_Location302 = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
-            reply->deleteLater();
             this->m_inbuff = reply->readAll();
             this->m_listHeaders = &reply->rawHeaderPairs();
+            reply->deleteLater();
             return true;
         }
     }

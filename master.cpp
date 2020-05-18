@@ -97,7 +97,7 @@ void Master::processCounters(Article const article)
             emit increaseError();
         } else if (site.parserStatus == ParserStatus::ERROR_PRICE_NOT_FOUND) {
             emit addLog(QString("[WARNING] %1:%2 Цена не найдена").arg(article.article).arg(site.url));
-            emit increaseError();
+            emit increasePriceNotFound();
         } else if (site.parserStatus == ParserStatus::WARNING_ARTICLE_NOT_FOUND){
             emit increaseNotFound();
         }

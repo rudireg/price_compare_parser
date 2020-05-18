@@ -22,6 +22,7 @@ struct Counters {
     QLabel *total;
     QLabel *done;
     QLabel *notFound;
+    QLabel *priceNotFound;
     QLabel *errors;
     QSpinBox *threadCount;
     QProgressBar *progressBar;

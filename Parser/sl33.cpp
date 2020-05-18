@@ -12,7 +12,8 @@ Sl33::Sl33(QObject *parent) : Parser(parent)
  */
 QString Sl33::search(Article &article)
 {
-    QString url = QString("https://yandex.ru/search/site/?text=\"%1\"&searchid=2237329&l10n=ru").arg(article.article);
+
+    QString url = QString("https://yandex.ru/search/site/?searchid=2237329&text=\"%1\"&web=0&l10n=ru").arg(article.article);
     article.sites[this->siteIndex].searchUrl = url;
     if (this->http->get(url)) {
         return this->http->inbuffQString();

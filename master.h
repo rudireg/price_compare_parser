@@ -40,6 +40,7 @@ signals:
     void increaseDone();
     void increaseNotFound();
     void increaseError();
+    void increasePriceNotFound();
     void increaseProgressBar();
     void addLog(QString);
     void addTableStatus(int idThread, QString article, QString status, QString color);
