@@ -14,17 +14,6 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    this->sitesToParse.append("https://www.autoscaners.ru/");
-    this->sitesToParse.append("https://www.rustehnika.ru/");
-    this->sitesToParse.append("https://mactak-m.ru/");
-    this->sitesToParse.append("http://pf-tool.ru/");
-
-    this->sitesToParse.append("http://www.freemen.su/");
-    this->sitesToParse.append("https://sl33.ru/");
-
-    this->sitesToParse.append("https://special-tool.ru/");
-    this->sitesToParse.append("https://autocheckers.ru/");
-
     createActions();
     createMenu();
     createUi();
@@ -52,11 +41,25 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 /**
+ * Инициализируем список доменов, которые нужно парсить
+ * @brief MainWindow::setDomainForParser
+ */
+void MainWindow::setDomainForParser()
+{
+    this->sitesToParse.clear();
+    foreach(DomainToParse *domain, this->optionsTab->domains) {
+        if (domain->checkbox->isChecked()) {
+            this->sitesToParse.append(domain->url);
+        }
+    }
+}
+
+/**
+ * Сохранить настройки
  * @brief MainWindow::~MainWindow
  */
 MainWindow::~MainWindow()
 {
-    //Сохранить настройки
     this->writeSettings();
 }
 
@@ -67,6 +70,12 @@ void MainWindow::writeSettings()
 {
     m_settings.beginGroup("/Settings");
     m_settings.setValue("/threadCount", this->generalTab->counters.threadCount->value());
+
+    // Read and Set domains
+    foreach(DomainToParse *domain, this->optionsTab->domains) {
+        m_settings.setValue(QString("/%1").arg(domain->url), domain->checkbox->isChecked());
+    }
+
     m_settings.endGroup();
 }
 
@@ -78,6 +87,12 @@ void MainWindow::readSettings()
     m_settings.beginGroup("/Settings");
     //Read
     int threadCount = m_settings.value("/threadCount", 0).toInt();
+
+    // Read and Set domains
+    foreach(DomainToParse *domain, this->optionsTab->domains) {
+        domain->checkbox->setChecked(m_settings.value(QString("/%1").arg(domain->url), true).toBool());
+    }
+
     //Set
     this->generalTab->counters.threadCount->setValue(threadCount);
     m_settings.endGroup();
@@ -90,6 +105,9 @@ void MainWindow::readSettings()
  */
 void MainWindow::prepareData(QString filePath)
 {
+    // Подготовим список доменов
+    this->setDomainForParser();
+
     this->generalTab->buttons.start->setEnabled(false);
     this->generalTab->buttons.stop->setEnabled(true);
     this->articles->clear();
@@ -166,7 +184,8 @@ void MainWindow::createUi()
 void MainWindow::createActions()
 {
     this->actExit = new QAction(tr("&Exit"), this);
-    QObject::connect(this->actExit, &QAction::triggered, this, &MainWindow::onActExit);
+    this->actExit->setMenuRole(QAction::QuitRole);
+    QObject::connect(this->actExit, &QAction::triggered, qApp, &QApplication::closeAllWindows);
 }
 
 /**
@@ -178,16 +197,6 @@ void MainWindow::createMenu()
     QMenu *menuFile = menuBar->addMenu(tr("&File"));
     menuFile->addAction(this->actExit);
     setMenuBar(menuBar);
-}
-
-/**
- * @brief MainWindow::onAddExit
- */
-void MainWindow::onActExit()
-{
-    //Сохранить настройки
-    this->writeSettings();
-    exit(0);
 }
 
 /**

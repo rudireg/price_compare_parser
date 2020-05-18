@@ -18,5 +18,6 @@ int main(int argc, char *argv[])
     w.resize(900, 400);
 //    w.setWindowState(Qt::WindowMaximized);
     w.show();
+
     return a.exec();
 }

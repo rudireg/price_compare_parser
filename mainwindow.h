@@ -5,6 +5,7 @@
 #include <QThread>
 #include <QSettings>
 #include <QHeaderView>
+#include <QApplication>
 #include "master.h"
 #include "Ui/generaltab.h"
 #include "Ui/optionstab.h"
@@ -20,7 +21,6 @@ public:
     QList<Article> *articles;
     QList<QString> sitesToParse;
 public slots:
-    void onActExit();
     void prepareData(QString filePath);
     void enableStartButton();
     void masterDone();
@@ -45,10 +45,12 @@ protected:
     void createActions();
     void clearCounters();
     void initStatusTable(int cntThr);
+    void setDomainForParser();
 protected slots:
 
 signals:
     void startWork(QList<Article>*, int);
+    void close();
 
 };
 #endif // MAINWINDOW_H
