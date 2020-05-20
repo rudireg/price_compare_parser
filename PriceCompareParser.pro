@@ -56,3 +56,7 @@ HEADERS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+win64 {
+    LIBS += -llibssl-1_1-x64 -llibcrypto-1_1-x64
+}

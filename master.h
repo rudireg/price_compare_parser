@@ -5,6 +5,7 @@
 #include <QThread>
 #include <QMessageBox>
 #include <QPointer>
+#include <QDir>
 #include "worker.h"
 
 struct Result {

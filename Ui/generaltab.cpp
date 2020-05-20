@@ -130,10 +130,14 @@ QGroupBox* GeneralTab::createUpload()
  */
 void GeneralTab::onActUpload()
 {
+//    QString tmp = QDir::currentPath();
+//    QString str = QFileDialog::getOpenFileName(this,"Select File",QDir::current().absolutePath(), "*.csv *.txt");
+
     QFileDialog *dialog = new QFileDialog();
-    QDir dir(".");
-    dir.absolutePath();
-    dialog->setDirectory(dir);
+   // QDir dir(".");
+   // dir.absolutePath();
+    //dialog->setDirectory(dir);
+    dialog->setDirectory(QDir::current().absolutePath());
     dialog->setNameFilter(tr("CSV Files (*.csv)"));
     if (dialog->exec()) {
         this->sourceFilePath = dialog->selectedFiles().first();

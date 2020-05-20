@@ -150,11 +150,12 @@ void Master::createReport()
 void Master::saveParserDataAsHtml()
 {
     QString color;
-    QFile filename("Data/HTML_result.html");
+    QDir dir(".");
+    QString currentDir = dir.absolutePath();
+    QFile filename(currentDir + "/Data/HTML_result.html");
     filename.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&filename);
     out.setCodec(QTextCodec::codecForName("UTF-8"));
-
     //****************************
     out << "<html>"
            "<head><style>table {border-collapse:collapse;} table,th,td{border: 1px solid #ccc;}</style>"
@@ -209,7 +210,9 @@ void Master::saveParserDataAsHtml()
 void Master::saveParserDataAsCSV()
 {
     QString color;
-    QFile filename("Data/CSV_result.csv");
+    QDir dir(".");
+    QString currentDir = dir.absolutePath();
+    QFile filename(currentDir + "/Data/CSV_result.csv");
     filename.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&filename);
     out.setCodec(QTextCodec::codecForName("UTF-8"));
