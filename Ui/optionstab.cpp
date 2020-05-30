@@ -38,7 +38,7 @@ void OptionsTab::initDomainList()
 
     DomainToParse * domainFreemen = new DomainToParse;
     domainFreemen->url = "http://www.freemen.su/";
-    domainFreemen->title = "www.freemen.su";
+    domainFreemen->title = "www.freemen.su (Тупит на больших потоках)";
     this->domains.append(domainFreemen);
 
     DomainToParse * domainSl33 = new DomainToParse;
