@@ -55,6 +55,43 @@ void OptionsTab::initDomainList()
     domainAutocheckers->url = "https://autocheckers.ru/";
     domainAutocheckers->title = "autocheckers.ru";
     this->domains.append(domainAutocheckers);
+
+    DomainToParse * domainCaoUfa = new DomainToParse;
+    domainCaoUfa->url = "https://cao-ufa.ru/";
+    domainCaoUfa->title = "cao-ufa.ru";
+    this->domains.append(domainCaoUfa);
+
+    DomainToParse * domainAvtomirVologda = new DomainToParse;
+    domainAvtomirVologda->url = "http://avtomir-vologda.ru/";
+    domainAvtomirVologda->title = "avtomir-vologda.ru";
+    this->domains.append(domainAvtomirVologda);
+
+    DomainToParse * domainTerminalTools = new DomainToParse;
+    domainTerminalTools->url = "http://terminal-tools.ru/";
+    domainTerminalTools->title = "terminal-tools.ru";
+    this->domains.append(domainTerminalTools);
+
+
+//    Вот список сайтов которые нужно добавлять в первую очередь
+
+//    https://www.carmod.ru/
+//    http://www.servismax.ru/new/
+//    http://vseoborudovanie.ru/
+//    https://scan2.ru/
+//    https://imperiyaavto43.ru/
+//    https://www.master-instrument.ru/
+//    https://arstools.ru/
+//    https://www.servicequipment.ru/
+//    http://arkudateh.ru/
+//    http://glav-mech.ru/
+//    https://garo24.ru/
+//    http://optima-tools.ru/
+//    https://mnogotools.ru/
+//    https://www.maslosmenka.ru/
+//    http://www.top-tul.ru/
+//    https://avtomag96.ru/
+//    https://odas-ekb.ru/
+//    http://avtokluch-market.ru/
 }
 
 /**

@@ -19,6 +19,8 @@ SOURCES += \
     Network/rhttp.cpp \
     Parser/autocheckersru.cpp \
     Parser/autoscanersruparser.cpp \
+    Parser/avtomirvologda.cpp \
+    Parser/caoufa.cpp \
     Parser/freemensu.cpp \
     Parser/mactacmru.cpp \
     Parser/parser.cpp \
@@ -27,6 +29,7 @@ SOURCES += \
     Parser/rustehnikaruparser.cpp \
     Parser/sl33.cpp \
     Parser/specialtoolru.cpp \
+    Parser/terminaltools.cpp \
     Ui/generaltab.cpp \
     Ui/optionstab.cpp \
     main.cpp \
@@ -38,6 +41,8 @@ HEADERS += \
     Network/rhttp.h \
     Parser/autocheckersru.h \
     Parser/autoscanersruparser.h \
+    Parser/avtomirvologda.h \
+    Parser/caoufa.h \
     Parser/freemensu.h \
     Parser/mactacmru.h \
     Parser/parser.h \
@@ -46,6 +51,7 @@ HEADERS += \
     Parser/rustehnikaruparser.h \
     Parser/sl33.h \
     Parser/specialtoolru.h \
+    Parser/terminaltools.h \
     Ui/generaltab.h \
     Ui/optionstab.h \
     mainwindow.h \

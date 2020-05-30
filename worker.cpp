@@ -55,6 +55,12 @@ void Worker::initParsers(QList<Site> sites)
             parser = new SpecialToolRu;
         } else if (site.url == "https://autocheckers.ru/") {
             parser = new AutoCheckersRu;
+        } else if (site.url == "https://cao-ufa.ru/") {
+            parser = new CaoUfa;
+        } else if (site.url == "http://avtomir-vologda.ru/") {
+            parser = new AvtomirVologda;
+        } else if (site.url == "http://terminal-tools.ru/") {
+            parser = new TerminalTools;
         } else {
             parser = nullptr;
         }

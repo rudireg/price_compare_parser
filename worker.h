@@ -12,6 +12,9 @@
 #include "Parser/sl33.h"
 #include "Parser/specialtoolru.h"
 #include "Parser/autocheckersru.h"
+#include "Parser/caoufa.h"
+#include "Parser/avtomirvologda.h"
+#include "Parser/terminaltools.h"
 
 /**
  * Структура хранит данные для рабочего потока
