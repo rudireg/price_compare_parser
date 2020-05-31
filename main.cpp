@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     qRegisterMetaType<QList<Site>>("QList<Site>");
 
     MainWindow w;
-    w.resize(900, 400);
+    w.resize(900, 600);
 //    w.setWindowState(Qt::WindowMaximized);
     w.show();
 

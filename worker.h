@@ -15,6 +15,11 @@
 #include "Parser/caoufa.h"
 #include "Parser/avtomirvologda.h"
 #include "Parser/terminaltools.h"
+#include "Parser/carmod.h"
+#include "Parser/servismax.h"
+#include "Parser/vseoborudovanie.h"
+#include "Parser/scan2.h"
+#include "Parser/imperiyaavto43.h"
 
 /**
  * Структура хранит данные для рабочего потока

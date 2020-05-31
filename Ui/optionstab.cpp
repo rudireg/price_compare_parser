@@ -71,13 +71,33 @@ void OptionsTab::initDomainList()
     domainTerminalTools->title = "terminal-tools.ru";
     this->domains.append(domainTerminalTools);
 
+    DomainToParse * domainCarmod = new DomainToParse;
+    domainCarmod->url = "https://www.carmod.ru/";
+    domainCarmod->title = "www.carmod.ru";
+    this->domains.append(domainCarmod);
+
+    DomainToParse * domainServisMax = new DomainToParse;
+    domainServisMax->url = "http://www.servismax.ru/";
+    domainServisMax->title = "www.servismax.ru";
+    this->domains.append(domainServisMax);
+
+    DomainToParse * domainVseOborudovanie = new DomainToParse;
+    domainVseOborudovanie->url = "http://vseoborudovanie.ru/";
+    domainVseOborudovanie->title = "vseoborudovanie.ru";
+    this->domains.append(domainVseOborudovanie);
+
+    DomainToParse * domainScan2 = new DomainToParse;
+    domainScan2->url = "https://scan2.ru/";
+    domainScan2->title = "scan2.ru";
+    this->domains.append(domainScan2);
+
+    DomainToParse * domainImperiyaavto43 = new DomainToParse;
+    domainImperiyaavto43->url = "https://imperiyaavto43.ru/";
+    domainImperiyaavto43->title = "imperiyaavto43.ru";
+    this->domains.append(domainImperiyaavto43);
 
 //    Вот список сайтов которые нужно добавлять в первую очередь
 
-//    https://www.carmod.ru/
-//    http://www.servismax.ru/new/
-//    http://vseoborudovanie.ru/
-//    https://scan2.ru/
 //    https://imperiyaavto43.ru/
 //    https://www.master-instrument.ru/
 //    https://arstools.ru/

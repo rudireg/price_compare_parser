@@ -16,20 +16,27 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    AntiCaptcha/anticaptcha.cpp \
+    AntiCaptcha/nocaptchataskproxyless.cpp \
     Network/rhttp.cpp \
     Parser/autocheckersru.cpp \
     Parser/autoscanersruparser.cpp \
     Parser/avtomirvologda.cpp \
     Parser/caoufa.cpp \
+    Parser/carmod.cpp \
     Parser/freemensu.cpp \
+    Parser/imperiyaavto43.cpp \
     Parser/mactacmru.cpp \
     Parser/parser.cpp \
     Parser/pftoolru.cpp \
     Parser/rstring.cpp \
     Parser/rustehnikaruparser.cpp \
+    Parser/scan2.cpp \
+    Parser/servismax.cpp \
     Parser/sl33.cpp \
     Parser/specialtoolru.cpp \
     Parser/terminaltools.cpp \
+    Parser/vseoborudovanie.cpp \
     Ui/generaltab.cpp \
     Ui/optionstab.cpp \
     main.cpp \
@@ -38,20 +45,27 @@ SOURCES += \
     worker.cpp
 
 HEADERS += \
+    AntiCaptcha/anticaptcha.h \
+    AntiCaptcha/nocaptchataskproxyless.h \
     Network/rhttp.h \
     Parser/autocheckersru.h \
     Parser/autoscanersruparser.h \
     Parser/avtomirvologda.h \
     Parser/caoufa.h \
+    Parser/carmod.h \
     Parser/freemensu.h \
+    Parser/imperiyaavto43.h \
     Parser/mactacmru.h \
     Parser/parser.h \
     Parser/pftoolru.h \
     Parser/rstring.h \
     Parser/rustehnikaruparser.h \
+    Parser/scan2.h \
+    Parser/servismax.h \
     Parser/sl33.h \
     Parser/specialtoolru.h \
     Parser/terminaltools.h \
+    Parser/vseoborudovanie.h \
     Ui/generaltab.h \
     Ui/optionstab.h \
     mainwindow.h \

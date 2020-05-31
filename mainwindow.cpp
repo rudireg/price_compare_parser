@@ -175,7 +175,7 @@ void MainWindow::createUi()
     tabWidget->addTab(this->optionsTab, tr("Options"));
 
     setCentralWidget(tabWidget);
-    setWindowTitle(tr("Price Parser v 1.0.1"));
+    setWindowTitle(tr("Price Parser v 1.0.2"));
 }
 
 /**

@@ -61,6 +61,16 @@ void Worker::initParsers(QList<Site> sites)
             parser = new AvtomirVologda;
         } else if (site.url == "http://terminal-tools.ru/") {
             parser = new TerminalTools;
+        } else if (site.url == "https://www.carmod.ru/") {
+            parser = new Carmod;
+        } else if (site.url == "http://www.servismax.ru/") {
+            parser = new ServisMax;
+        } else if (site.url == "http://vseoborudovanie.ru/") {
+            parser = new VseOborudovanie;
+        } else if (site.url == "https://scan2.ru/") {
+            parser = new Scan2;
+        } else if (site.url == "https://imperiyaavto43.ru/") {
+            parser = new Imperiyaavto43;
         } else {
             parser = nullptr;
         }
