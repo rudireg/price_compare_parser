@@ -5,6 +5,7 @@
 #include <QGroupBox>
 #include <QCheckBox>
 #include <QVBoxLayout>
+#include <QLineEdit>
 #include <QLabel>
 
 struct DomainToParse {
@@ -24,12 +25,14 @@ class OptionsTab : public QWidget
 public:
     explicit OptionsTab(QWidget *parent = nullptr);
     QList<DomainToParse*> domains;
+    QLineEdit *captchaClientKey;
 
 signals:
 
 protected:
     QWidget *createDomainOptions();
     void initDomainList();
+    QLayout *createCaptchaOption();
 };
 
 #endif // OPTIONSTAB_H

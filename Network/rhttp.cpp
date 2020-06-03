@@ -117,7 +117,7 @@ bool RHttp::get(const QString &uri)
         this->m_httpStatusCode   = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
         this->m_httpReasonPhrase = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
         //If conection error - return false
-        if(reply->error() != QNetworkReply::NoError && reply->error() != QNetworkReply::ContentNotFoundError) {
+        if(reply->error() != QNetworkReply::NoError && reply->error() != QNetworkReply::ContentNotFoundError && reply->error() != QNetworkReply::UnknownContentError) {
              reply->deleteLater();
              return false;
         }
@@ -203,19 +203,15 @@ bool RHttp::post(const QString &uri, const QByteArray &data)
         this->m_origin.clear();
     }
 
-    request.setRawHeader("content-type", "application/x-www-form-urlencoded");
-
-//    request.setRawHeader("Cache-Control", "no-cache");
-
-//    if(this->m_contentType.isEmpty()){
-//        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-//    }else{
-//        request.setHeader(QNetworkRequest::ContentTypeHeader, this->m_contentType.toUtf8());
-//        this->m_contentType.clear();
-//    }
-    if(this->m_json == true) {
+    if (!this->m_contentType.isEmpty()) {
+        request.setHeader(QNetworkRequest::ContentTypeHeader, this->m_contentType.toUtf8());
+        this->m_contentType.clear();
+    } else if (this->m_json == true) {
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    } else {
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     }
+
     //Is Ajax request
     if(this->m_ajax == true) {
         this->m_ajax = false;
@@ -226,13 +222,6 @@ bool RHttp::post(const QString &uri, const QByteArray &data)
        request.setRawHeader("Referer", this->m_referer.toUtf8());
        this->m_referer.clear();
     }
-//    if(this->m_connection.isEmpty()){
-//        request.setRawHeader("Connection", "keep-alive");
-//    }else{
-//        request.setRawHeader("Connection", this->m_connection.toUtf8());
-//        this->m_connection.clear();
-//    }
-//    request.setRawHeader("Pragma", "no-cache");
 
     QTimer timer;
     timer.setSingleShot(true);

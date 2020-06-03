@@ -12,9 +12,26 @@ AntiCaptcha::AntiCaptcha(QObject *parent) : QObject(parent)
  */
 QString AntiCaptcha::resolve(QString siteKey, QString url)
 {
-    // Запросим решение каптчи
-    QString id = this->createTask(siteKey, url);
-    return "12345";
+    // создадим задачу решения каптчи
+    if (0 == this->createTask(siteKey, url)) {
+        return "";
+    }
+
+    // пауза 10 секунд
+    QThread::sleep(10);
+
+    // проверяем ответ каждые 5 секунд
+    QString status;
+    while(true) {
+        status = this->getTaskResult(this->taskId());
+        if ("processing" == status) {
+            QThread::sleep(5);
+        } else if ("ready" == status) {
+            return this->gRecaptchaResponse();
+        } else {
+            return "";
+        }
+    }
 }
 
 /**
@@ -24,61 +41,61 @@ QString AntiCaptcha::resolve(QString siteKey, QString url)
  * @param url
  * @return
  */
-QString AntiCaptcha::createTask(QString siteKey, QString url)
+int AntiCaptcha::createTask(QString siteKey, QString url)
 {
     QString param = this->createParams(siteKey, url);
+    this->http->setJson(true);
     this->http->post("http://api.anti-captcha.com/createTask", param.toUtf8());
     QString inbuf = this->http->inbuffQString();
 
     QJsonDocument response = QJsonDocument::fromJson(inbuf.toUtf8());
     QJsonObject responseObject = response.object();
-    int errorId = responseObject.value("errorId").toInt();
-    this->setErrorId(errorId);
-    QString taskId = responseObject.value("taskId").toString();
-    this->setTaskId(taskId);
+    this->setErrorId(responseObject.value("errorId").toInt());
+    this->setTaskId(responseObject.value("taskId").toInt());
 
-    if (errorId == 0) { // 0 - ошибок нет, свойства errorCode и errorDescription отсутствуют
+    if (this->errorId() == 0) { // 0 - ошибок нет, свойства errorCode и errorDescription отсутствуют
         this->setErrorCode("");
         this->setErrorDescription("");
     } else { // 1 - код ошибки, информация об ошибке находится в свойстве errorCode и errorDescription
         this->setErrorCode(responseObject.value("errorCode").toString());
         this->setErrorDescription(responseObject.value("errorDescription").toString());
+        return 0;
     }
 
-    return taskId;
+    return this->taskId();
 }
 
 /**
  * https://anticaptcha.atlassian.net/wiki/spaces/API/pages/196670/getTaskResult
  * @brief AntiCaptcha::getTaskResult
- * @param clientKey
+ * @param taskId
  * @return
  */
-QString AntiCaptcha::getTaskResult(QString taskId)
+QString AntiCaptcha::getTaskResult(int taskId)
 {
     QJsonObject recordObject;
-    recordObject.insert("clientKey", QJsonValue::fromVariant(this->_taskId));
+    recordObject.insert("clientKey", QJsonValue::fromVariant(this->clientKey()));
     recordObject.insert("taskId", QJsonValue::fromVariant(taskId));
     QJsonDocument doc(recordObject);
-    QString param = doc.toJson();
+    QString param = doc.toJson(QJsonDocument::Compact);
 
+    this->http->setJson(true);
     this->http->post("https://api.anti-captcha.com/getTaskResult", param.toUtf8());
     QString inbuf = this->http->inbuffQString();
 
     QJsonDocument response = QJsonDocument::fromJson(inbuf.toUtf8());
     QJsonObject responseObject = response.object();
-    int errorId = responseObject.value("errorId").toInt();
-    this->setErrorId(errorId);
-    QString status = responseObject.value("status").toString();
-    QJsonValue text = responseObject.value("solution").toObject().value("text");
-    QJsonValue url = responseObject.value("solution").toObject().value("url");
-    QString cost = responseObject.value("cost").toString();
-    QString ip = responseObject.value("ip").toString();
-    QString createTime = responseObject.value("createTime").toString();
-    QString endTime = responseObject.value("endTime").toString();
-    QString solveCount = responseObject.value("solveCount").toString();
+    this->setErrorId(responseObject.value("errorId").toInt());
+    this->setStatus(responseObject.value("status").toString());
+    this->setGRecaptchaResponse(responseObject.value("solution").toObject().value("gRecaptchaResponse").toString());
+    this->setUrl(responseObject.value("solution").toObject().value("url").toString());
+    this->setCost(responseObject.value("cost").toDouble());
+    this->setIp(responseObject.value("ip").toString());
+    this->setCreateTime(responseObject.value("createTime").toInt());
+    this->setEndTime(responseObject.value("endTime").toInt());
+    this->setSolveCount(responseObject.value("solveCount").toInt());
 
-    if (errorId == 0) { // 0 - ошибок нет, свойства errorCode и errorDescription отсутствуют
+    if (this->errorId() == 0) { // 0 - ошибок нет, свойства errorCode и errorDescription отсутствуют
         this->setErrorCode("");
         this->setErrorDescription("");
     } else { // 1 - код ошибки, информация об ошибке находится в свойстве errorCode и errorDescription
@@ -86,6 +103,7 @@ QString AntiCaptcha::getTaskResult(QString taskId)
         this->setErrorDescription(responseObject.value("errorDescription").toString());
     }
 
+    return this->status(); // processing - задача в процессе выполнения, ready - задача выполнена, решение находится в свойстве solution
 }
 
 /**

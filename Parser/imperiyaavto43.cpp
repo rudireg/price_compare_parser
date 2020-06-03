@@ -4,9 +4,12 @@
  * @brief Imperiyaavto43::Imperiyaavto43
  * @param parent
  */
-Imperiyaavto43::Imperiyaavto43(QObject *parent) : Parser(parent)
+Imperiyaavto43::Imperiyaavto43(QObject *parent, QString captchaclientKey) : Parser(parent), captchaclientKey(captchaclientKey)
 {
     this->siteUrl = "https://imperiyaavto43.ru/";
+    this->captcha = new NoCaptchaTaskProxyless(this);
+    this->captcha->setClientKey(this->captchaclientKey);
+    this->gRecaptchaResponse = "";
 }
 
 /**
@@ -16,11 +19,52 @@ Imperiyaavto43::Imperiyaavto43(QObject *parent) : Parser(parent)
  */
 QString Imperiyaavto43::search(Article &article)
 {
+    QString redirect;
     QString url = QString("https://imperiyaavto43.ru/site_search?search_term=%1").arg(article.article);
     article.sites[this->siteIndex].searchUrl = url;
+    reSearch:
     if (this->http->get(url)) {
-        return this->http->inbuffQString();
+        if (302 == this->http->httpStatusCode()) { // Если каптча
+            QString location302 = this->http->Location302();
+            this->http->get(this->http->Location302());
+            RString inb = this->http->inbuffQString();
+            QString urlHash = inb.cut_str_to_str("<input type=\"hidden\" value=\"", "\"");
+            if (this->gRecaptchaResponse.isEmpty()) {
+                emit addTableStatus(this->objectName().toInt(), article.article, QString("%1 Разгадываем каптчу").arg(this->siteUrl), "green");
+                emit addLog(QString("%1 Разгадываем каптчу").arg(this->siteUrl));
+                reSolveCaptcha:
+                this->gRecaptchaResponse = this->captcha->resolve("6LdbfxIUAAAAAN6WYJWiCT4Vd65-0lP1tTOUKZ48", "https://tiu.ru/");
+                if (this->gRecaptchaResponse.isEmpty()) {
+                    emit addTableStatus(this->objectName().toInt(), article.article, QString("%1 ПОВТОРНО Разгадываем каптчу. ErrorCode: %2").arg(this->siteUrl).arg(this->captcha->errorCode()), "orange");
+                    emit addLog(QString("%1 ПОВТОРНО Разгадываем каптчу. errorCode: %2").arg(this->siteUrl).arg(this->captcha->errorCode()));
+                    QThread::sleep(5);
+                    goto reSolveCaptcha;
+                }
+            }
+            QString param = QString("url=%1&g-recaptcha-response=%2").arg(urlHash).arg(this->gRecaptchaResponse);
+            this->http->setReferer(QString("https://tiu.ru/captcha?url=%1").arg(urlHash));
+            this->http->post("https://imperiyaavto43.ru/check_captcha", param.toUtf8());
+            if (302 == this->http->httpStatusCode()) {
+                redirect = this->http->Location302();
+                if (redirect.contains("imperiyaavto43.ru")) {
+                    emit addTableStatus(this->objectName().toInt(), article.article, QString("%1 Каптча успешно разгадана").arg(this->siteUrl), "green");
+                    emit addLog(QString("%1 Каптча успешно разгадана").arg(this->siteUrl));
+                    redirect.replace("http://imperiyaavto43.ru", "https://imperiyaavto43.ru");
+                    this->http->get(redirect);
+                    RString ttt = this->http->inbuffQString();
+                    return this->http->inbuffQString();
+                } else {
+                    this->gRecaptchaResponse.clear();
+                    emit addTableStatus(this->objectName().toInt(), article.article, QString("%1 Каптча разгадана не верно").arg(this->siteUrl), "green");
+                    emit addLog(QString("%1 Каптча разгадана не верно").arg(this->siteUrl));
+                    goto reSearch;
+                }
+            }
+        } else {
+            return this->http->inbuffQString();
+        }
     }
+
     return "";
 }
 

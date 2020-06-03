@@ -70,6 +70,7 @@ void MainWindow::writeSettings()
 {
     m_settings.beginGroup("/Settings");
     m_settings.setValue("/threadCount", this->generalTab->counters.threadCount->value());
+    m_settings.setValue("/ClientAntiCaptchaKey", this->optionsTab->captchaClientKey->text());
 
     // Read and Set domains
     foreach(DomainToParse *domain, this->optionsTab->domains) {
@@ -87,6 +88,8 @@ void MainWindow::readSettings()
     m_settings.beginGroup("/Settings");
     //Read
     int threadCount = m_settings.value("/threadCount", 0).toInt();
+    // AntiCaptcha key
+    QString clientAntiCaptchaKey = m_settings.value("/ClientAntiCaptchaKey", "").toString();
 
     // Read and Set domains
     foreach(DomainToParse *domain, this->optionsTab->domains) {
@@ -95,6 +98,7 @@ void MainWindow::readSettings()
 
     //Set
     this->generalTab->counters.threadCount->setValue(threadCount);
+    this->optionsTab->captchaClientKey->setText(clientAntiCaptchaKey);
     m_settings.endGroup();
 }
 
@@ -142,7 +146,19 @@ void MainWindow::prepareData(QString filePath)
     this->generalTab->counters.progressBar->setMaximum(this->articles->count());
     int threadCount = this->generalTab->counters.threadCount->value();
     this->initStatusTable(threadCount);
-    emit startWork(this->articles, threadCount);
+
+    if (true == this->optionsTab->domains.at(15)->checkbox->isChecked() && this->optionsTab->captchaClientKey->text().isEmpty()) {
+        QMessageBox::critical(nullptr, "Error", "Для парсинга домена imperiyaavto43.ru\nне указали ключ антикапчи в настройках.");
+        this->enableStartButton();
+        return;
+    }
+    if (!this->optionsTab->captchaClientKey->text().isEmpty() && this->optionsTab->captchaClientKey->text().length() != 32) {
+        QMessageBox::critical(nullptr, "Error", "Ключ антикапчи в настройках должен состоять из 32 символов.");
+        this->enableStartButton();
+        return;
+    }
+
+    emit startWork(this->articles, threadCount, this->optionsTab->captchaClientKey->text());
 }
 
 /**

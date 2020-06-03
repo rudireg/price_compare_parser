@@ -6,7 +6,11 @@
 #include <QMessageBox>
 #include <QPointer>
 #include <QDir>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
 #include "worker.h"
+#include "Network/rhttp.h"
 
 struct Result {
     QList<Article> articles;
@@ -22,6 +26,8 @@ public:
     explicit Master(QObject *parent = nullptr);
     ~Master();
 protected:
+    RHttp *http;
+    ValuteRate *valuteRate;
     QList<QPointer<Worker>> workers;
     QList<Article> *articles;
     Result result;
@@ -29,8 +35,9 @@ protected:
     void saveParserDataAsHtml();
     void processCounters(const Article article);
     void saveParserDataAsCSV();
+    bool initValuteRate();
 public slots:
-    void startWork(QList<Article> *articles, int threadCount);
+    void startWork(QList<Article> *articles, int threadCount, QString captchaClientKey);
     void stopWork();
     void setTask(Worker *worker = nullptr);
     void workerDestroyed();

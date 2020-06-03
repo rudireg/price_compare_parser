@@ -51,9 +51,8 @@ class RCookie : public QNetworkCookieJar
 public:
     explicit RCookie(QObject *parent = nullptr);
     QList<QNetworkCookie> getAllCookies(void);
-    void                  setAllSitesCookies(const QList<QNetworkCookie>& cookieList);
+    void setAllSitesCookies(const QList<QNetworkCookie>& cookieList);
 private:
-
 };
 
 class RHttp : public QObject

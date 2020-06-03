@@ -15,6 +15,17 @@ enum class ParserStatus: int {
     ERROR_PRODUCT_URL_NOT_FOUND
 };
 
+/**
+ * Структура хранит курс валют
+ * @brief The ValuteRate struct
+ */
+struct ValuteRate {
+    ValuteRate() {
+        this->usd = 0;
+    }
+    float usd;
+};
+
 struct Site {
     Site () {
         this->url.clear();
@@ -66,6 +77,7 @@ protected:
     int findSite(QList<Site> &sites, QString url);
 signals:
     void addTableStatus(int idThread, QString article, QString status, QString color);
+    void addLog(QString);
 };
 
 #endif // PARSER_H

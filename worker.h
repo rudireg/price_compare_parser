@@ -44,7 +44,7 @@ class Worker : public QObject
 {
     Q_OBJECT
 public:
-    explicit Worker(QObject *parent = nullptr);
+    explicit Worker(QObject *parent = nullptr, QString captchaClientKey = "", ValuteRate *valuteRate = nullptr);
     ~Worker();
     TInfo *tInfo;
 
@@ -52,14 +52,16 @@ public slots:
     void initWorker(QList<Site> sites);
     void process();
 protected:
+    ValuteRate *valuteRate;
     QHash<QString, Parser*> parserPool;
-
+    QString captchaClientKey;
     Parser *getParser(const QString site);
     void initParsers(QList<Site> sites);
 signals:
     void iAmReady();
     void taskDone();
     void addTableStatus(int idThread, QString article, QString status, QString color);
+    void addLog(QString);
 };
 
 #endif // WORKER_H

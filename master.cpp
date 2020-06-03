@@ -2,7 +2,9 @@
 
 Master::Master(QObject *parent) : QObject(parent)
 {
+    this->http = nullptr;
     this->result.clear();
+    this->valuteRate = new ValuteRate;
 }
 
 Master::~Master()
@@ -11,20 +13,31 @@ Master::~Master()
     for (i = this->workers.begin(); i != this->workers.end(); ++i) {
         (*i)->deleteLater();
     }
+    if (nullptr != this->http) {
+        this->http->deleteLater();
+    }
 }
 
 /**
  * Начало работы
  * @brief Master::initMaster
  */
-void Master::startWork(QList<Article> *articles, int threadCount)
+void Master::startWork(QList<Article> *articles, int threadCount, QString captchaClientKey)
 {
+    if (nullptr == this->http) {
+        this->http = new RHttp();
+    }
     this->result.clear();
     this->articles = articles;
+    // Инициализация курса валют
+    if (!this->initValuteRate()) {
+        QMessageBox::information(nullptr, "Курс валют", "Ошбика инициализации курса валют.");
+        return;
+    }
 
     // создаем рабочих
     for (int i = 0; i < threadCount; ++i) {
-        Worker *worker = new Worker;
+        Worker *worker = new Worker(nullptr, captchaClientKey, this->valuteRate);
         worker->setObjectName(QString::number(i));
         QThread *thread = new QThread;
         QObject::connect(this, &Master::initWorkers, worker, &Worker::initWorker);
@@ -32,6 +45,7 @@ void Master::startWork(QList<Article> *articles, int threadCount)
         QObject::connect(worker, &Worker::destroyed, this, &Master::workerDestroyed);
         QObject::connect(worker, &Worker::taskDone, this, &Master::taskDone);
         QObject::connect(worker, &Worker::addTableStatus, this, &Master::addTableStatus);
+        QObject::connect(worker, &Worker::addLog, this, &Master::addLog);
         this->workers.append(worker);
         worker->moveToThread(thread);
         thread->start();
@@ -236,12 +250,24 @@ void Master::saveParserDataAsCSV()
     filename.close();
 }
 
+/**
+ * Инициализируем данные валют
+ * @brief Master::initValuteRate
+ * @return
+ */
+bool Master::initValuteRate()
+{
+    if (!this->http->get("https://www.cbr-xml-daily.ru/daily_json.js")) {
+        return false;
+    }
+    QString inbuf = this->http->inbuffQString();
+    QJsonDocument doc = QJsonDocument::fromJson(inbuf.toUtf8());
+    QJsonObject object = doc.object();
+    double usd = object.value("Valute").toObject().value("USD").toObject().value("Value").toDouble();
+    if (usd < 1) {
+        return false;
+    }
+    this->valuteRate->usd = usd;
 
-
-
-
-
-
-
-
-
+    return true;
+}

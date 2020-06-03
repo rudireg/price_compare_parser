@@ -49,7 +49,7 @@ protected:
 protected slots:
 
 signals:
-    void startWork(QList<Article>*, int);
+    void startWork(QList<Article>*, int, QString);
     void close();
 
 };

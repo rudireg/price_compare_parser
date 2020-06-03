@@ -1,9 +1,10 @@
 #include "worker.h"
 
-Worker::Worker(QObject *parent) : QObject(parent)
+Worker::Worker(QObject *parent, QString captchaClientKey, ValuteRate *valuteRate) : QObject(parent), captchaClientKey(captchaClientKey)
 {
     this->parserPool.clear();
     this->tInfo = nullptr;
+    this->valuteRate = valuteRate;
 }
 
 Worker::~Worker()
@@ -70,12 +71,13 @@ void Worker::initParsers(QList<Site> sites)
         } else if (site.url == "https://scan2.ru/") {
             parser = new Scan2;
         } else if (site.url == "https://imperiyaavto43.ru/") {
-            parser = new Imperiyaavto43;
+            parser = new Imperiyaavto43(nullptr, this->captchaClientKey);
         } else {
             parser = nullptr;
         }
         parser->setObjectName(this->objectName());
         QObject::connect(parser, &Parser::addTableStatus, this, &Worker::addTableStatus);
+        QObject::connect(parser, &Parser::addLog, this, &Worker::addLog);
         this->parserPool.insert(site.url, parser);
     }
 }

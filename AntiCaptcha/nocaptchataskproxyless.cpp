@@ -14,12 +14,12 @@ NoCaptchaTaskProxyless::NoCaptchaTaskProxyless(QObject *parent) : AntiCaptcha(pa
 QString NoCaptchaTaskProxyless::createParams(QString siteKey, QString url)
 {
     QJsonObject recordObject;
-    recordObject.insert("clientKey", QJsonValue::fromVariant(this->_taskId));
+    recordObject.insert("clientKey", QJsonValue::fromVariant(this->clientKey()));
     QJsonObject taskObject;
     taskObject.insert("type", "NoCaptchaTaskProxyless");
     taskObject.insert("websiteURL", url);
     taskObject.insert("websiteKey", siteKey);
     recordObject.insert("task", taskObject);
     QJsonDocument doc(recordObject);
-    return doc.toJson();
+    return doc.toJson(QJsonDocument::Compact);
 }

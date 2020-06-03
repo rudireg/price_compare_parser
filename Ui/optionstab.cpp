@@ -6,8 +6,27 @@ OptionsTab::OptionsTab(QWidget *parent) : QWidget(parent)
     this->initDomainList();
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addLayout(this->createCaptchaOption());
     mainLayout->addWidget(this->createDomainOptions());
     setLayout(mainLayout);
+}
+
+/**
+ * @brief OptionsTab::createCaptchaOption
+ * @return
+ */
+QLayout* OptionsTab::createCaptchaOption()
+{
+    QHBoxLayout *layout = new QHBoxLayout;
+    QLabel *label = new QLabel;
+    label->setText("Укажите ключ с сайта <a href=\"http://getcaptchasolution.com/qbkvw6djdb\">АнтиКапча</a> (состоит из 32 символов)");
+    label->setTextFormat(Qt::RichText);
+    label->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    label->setOpenExternalLinks(true);
+    layout->addWidget(label);
+    this->captchaClientKey = new QLineEdit;
+    layout->addWidget(this->captchaClientKey);
+    return layout;
 }
 
 /**
@@ -93,12 +112,17 @@ void OptionsTab::initDomainList()
 
     DomainToParse * domainImperiyaavto43 = new DomainToParse;
     domainImperiyaavto43->url = "https://imperiyaavto43.ru/";
-    domainImperiyaavto43->title = "imperiyaavto43.ru";
+    domainImperiyaavto43->title = "imperiyaavto43.ru (Используется Google reCaptcha, укажите ключ АнтиКапчи)";
     this->domains.append(domainImperiyaavto43);
+
+    DomainToParse * domainMasterInstrument = new DomainToParse;
+    domainMasterInstrument->url = "https://www.master-instrument.ru/";
+    domainMasterInstrument->title = "www.master-instrument.ru";
+    this->domains.append(domainMasterInstrument);
+
 
 //    Вот список сайтов которые нужно добавлять в первую очередь
 
-//    https://imperiyaavto43.ru/
 //    https://www.master-instrument.ru/
 //    https://arstools.ru/
 //    https://www.servicequipment.ru/
