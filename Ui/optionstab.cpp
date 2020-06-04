@@ -117,13 +117,16 @@ void OptionsTab::initDomainList()
 
     DomainToParse * domainMasterInstrument = new DomainToParse;
     domainMasterInstrument->url = "https://www.master-instrument.ru/";
-    domainMasterInstrument->title = "www.master-instrument.ru";
+    domainMasterInstrument->title = "www.master-instrument.ru (Парсит медленно. Есть цены в USD, конвертируются по курсу ЦБ)";
     this->domains.append(domainMasterInstrument);
 
+    DomainToParse * domainArstools = new DomainToParse;
+    domainArstools->url = "https://arstools.ru/";
+    domainArstools->title = "arstools.ru";
+    this->domains.append(domainArstools);
 
 //    Вот список сайтов которые нужно добавлять в первую очередь
 
-//    https://www.master-instrument.ru/
 //    https://arstools.ru/
 //    https://www.servicequipment.ru/
 //    http://arkudateh.ru/

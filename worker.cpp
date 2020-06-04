@@ -72,6 +72,11 @@ void Worker::initParsers(QList<Site> sites)
             parser = new Scan2;
         } else if (site.url == "https://imperiyaavto43.ru/") {
             parser = new Imperiyaavto43(nullptr, this->captchaClientKey);
+        } else if (site.url == "https://www.master-instrument.ru/") {
+            parser = new MasterInstrument;
+            parser->setUsdRate(this->valuteRate->usd);
+        } else if (site.url == "https://arstools.ru/") {
+            parser = new Arstools;
         } else {
             parser = nullptr;
         }

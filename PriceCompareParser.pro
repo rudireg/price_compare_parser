@@ -19,6 +19,7 @@ SOURCES += \
     AntiCaptcha/anticaptcha.cpp \
     AntiCaptcha/nocaptchataskproxyless.cpp \
     Network/rhttp.cpp \
+    Parser/arstools.cpp \
     Parser/autocheckersru.cpp \
     Parser/autoscanersruparser.cpp \
     Parser/avtomirvologda.cpp \
@@ -27,6 +28,7 @@ SOURCES += \
     Parser/freemensu.cpp \
     Parser/imperiyaavto43.cpp \
     Parser/mactacmru.cpp \
+    Parser/masterinstrument.cpp \
     Parser/parser.cpp \
     Parser/pftoolru.cpp \
     Parser/rstring.cpp \
@@ -48,6 +50,7 @@ HEADERS += \
     AntiCaptcha/anticaptcha.h \
     AntiCaptcha/nocaptchataskproxyless.h \
     Network/rhttp.h \
+    Parser/arstools.h \
     Parser/autocheckersru.h \
     Parser/autoscanersruparser.h \
     Parser/avtomirvologda.h \
@@ -56,6 +59,7 @@ HEADERS += \
     Parser/freemensu.h \
     Parser/imperiyaavto43.h \
     Parser/mactacmru.h \
+    Parser/masterinstrument.h \
     Parser/parser.h \
     Parser/pftoolru.h \
     Parser/rstring.h \

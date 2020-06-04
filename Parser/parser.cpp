@@ -3,6 +3,7 @@
 Parser::Parser(QObject *parent) : QObject(parent)
 {
     this->http = new RHttp();
+    this->setUsdRate(1);
 }
 
 Parser::~Parser()

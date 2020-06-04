@@ -69,8 +69,10 @@ public:
     virtual float parsePrice(RString block) = 0;
     virtual QString parseProductUrl(RString block, QString domain) = 0;
     void process(Article &article);
-
+    void setUsdRate(float rate) {this->_usdRate = rate;};
+    float usdRate() {return this->_usdRate;}
 protected:
+    float _usdRate;
     RHttp *http;
     QString siteUrl;
     int siteIndex;

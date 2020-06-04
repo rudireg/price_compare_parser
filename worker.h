@@ -20,6 +20,8 @@
 #include "Parser/vseoborudovanie.h"
 #include "Parser/scan2.h"
 #include "Parser/imperiyaavto43.h"
+#include "Parser/masterinstrument.h"
+#include "Parser/arstools.h"
 
 /**
  * Структура хранит данные для рабочего потока
