@@ -22,6 +22,16 @@
 #include "Parser/imperiyaavto43.h"
 #include "Parser/masterinstrument.h"
 #include "Parser/arstools.h"
+#include "Parser/servicequipment.h"
+#include "Parser/arkudateh.h"
+#include "Parser/garo24.h"
+#include "Parser/optimatools.h"
+#include "Parser/mnogotools.h"
+#include "Parser/maslosmenka.h"
+#include "Parser/toptul.h"
+#include "Parser/avtomag96.h"
+#include "Parser/odasekb.h"
+#include "Parser/avtokluchmarket.h"
 
 /**
  * Структура хранит данные для рабочего потока

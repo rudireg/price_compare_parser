@@ -1,16 +1,15 @@
-#ifndef SPECIALTOOLRU_H
-#define SPECIALTOOLRU_H
+#ifndef SERVICEQUIPMENT_H
+#define SERVICEQUIPMENT_H
 
 #include <QObject>
-#include <QThread>
 #include <QRegExp>
 #include "parser.h"
 
-class SpecialToolRu : public Parser
+class ServiceQuipment : public Parser
 {
     Q_OBJECT
 public:
-    explicit SpecialToolRu(QObject *parent = nullptr);
+    explicit ServiceQuipment(QObject *parent = nullptr);
     QString search(Article &article) override;
     QString findBlock(QString inbuf, QString article) override;
     float parsePrice(RString block) override;
@@ -20,4 +19,4 @@ protected:
     QString findArticleInBlock(const QList<QString> blocks, QString article);
 };
 
-#endif // SPECIALTOOLRU_H
+#endif // SERVICEQUIPMENT_H

@@ -1,16 +1,15 @@
-#ifndef SPECIALTOOLRU_H
-#define SPECIALTOOLRU_H
+#ifndef MNOGOTOOLS_H
+#define MNOGOTOOLS_H
 
 #include <QObject>
-#include <QThread>
 #include <QRegExp>
 #include "parser.h"
 
-class SpecialToolRu : public Parser
+class Mnogotools : public Parser
 {
     Q_OBJECT
 public:
-    explicit SpecialToolRu(QObject *parent = nullptr);
+    explicit Mnogotools(QObject *parent = nullptr);
     QString search(Article &article) override;
     QString findBlock(QString inbuf, QString article) override;
     float parsePrice(RString block) override;
@@ -18,6 +17,7 @@ public:
 protected:
     QList<QString> splitBlocks(RString inbuf);
     QString findArticleInBlock(const QList<QString> blocks, QString article);
+    QString concreteFindArticleInBlock(const QList<QString> blocks, QString article);
 };
 
-#endif // SPECIALTOOLRU_H
+#endif // MNOGOTOOLS_H

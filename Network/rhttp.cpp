@@ -84,7 +84,7 @@ bool RHttp::get(const QString &uri)
     if(!this->m_userAgent.isEmpty())
         request.setRawHeader("User-Agent", this->m_userAgent.toUtf8());
     else
-        request.setRawHeader("User-Agent", "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.113 Mobile Safari/537.36");
+        request.setRawHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.113 Safari/537.36");
 
     //Referer
     if(!this->m_referer.isEmpty()) {
@@ -190,7 +190,7 @@ bool RHttp::post(const QString &uri, const QByteArray &data)
     if(!this->m_userAgent.isEmpty())
         request.setRawHeader("User-Agent", this->m_userAgent.toUtf8());
     else
-        request.setRawHeader("User-Agent", "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.113 Mobile Safari/537.36");
+        request.setRawHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.113 Safari/537.36");
 
     request.setRawHeader("Accept", "*/*");
     if(this->m_gzip == true){

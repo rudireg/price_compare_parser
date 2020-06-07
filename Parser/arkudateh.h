@@ -1,23 +1,26 @@
-#ifndef SPECIALTOOLRU_H
-#define SPECIALTOOLRU_H
+#ifndef ARKUDATEH_H
+#define ARKUDATEH_H
 
 #include <QObject>
-#include <QThread>
 #include <QRegExp>
 #include "parser.h"
 
-class SpecialToolRu : public Parser
+class Arkudateh : public Parser
 {
     Q_OBJECT
 public:
-    explicit SpecialToolRu(QObject *parent = nullptr);
+    explicit Arkudateh(QObject *parent = nullptr);
     QString search(Article &article) override;
     QString findBlock(QString inbuf, QString article) override;
     float parsePrice(RString block) override;
     QString parseProductUrl(RString block, QString domain) override;
 protected:
+    bool _direct;
+    QString _concreteProductUrl;
     QList<QString> splitBlocks(RString inbuf);
     QString findArticleInBlock(const QList<QString> blocks, QString article);
+    QString findConcreteArticleInBlock(const QList<QString> blocks, QString article);
+    QString findCardArticleInBlock(const QList<QString> blocks, QString article);
 };
 
-#endif // SPECIALTOOLRU_H
+#endif // ARKUDATEH_H

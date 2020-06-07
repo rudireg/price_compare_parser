@@ -1,16 +1,15 @@
-#ifndef SPECIALTOOLRU_H
-#define SPECIALTOOLRU_H
+#ifndef AVTOMAG96_H
+#define AVTOMAG96_H
 
 #include <QObject>
-#include <QThread>
 #include <QRegExp>
 #include "parser.h"
 
-class SpecialToolRu : public Parser
+class Avtomag96 : public Parser
 {
     Q_OBJECT
 public:
-    explicit SpecialToolRu(QObject *parent = nullptr);
+    explicit Avtomag96(QObject *parent = nullptr);
     QString search(Article &article) override;
     QString findBlock(QString inbuf, QString article) override;
     float parsePrice(RString block) override;
@@ -20,4 +19,4 @@ protected:
     QString findArticleInBlock(const QList<QString> blocks, QString article);
 };
 
-#endif // SPECIALTOOLRU_H
+#endif // AVTOMAG96_H

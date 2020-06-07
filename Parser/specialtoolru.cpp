@@ -14,8 +14,15 @@ QString SpecialToolRu::search(Article &article)
 {
     QString searchUrl = QString("https://special-tool.ru/catalog/?q=%1&s=").arg(article.article);
     article.sites[this->siteIndex].searchUrl = searchUrl;
+    reSearch:
     if (this->http->get(searchUrl)) {
         return this->http->inbuffQString();
+    }
+    if (this->http->httpStatusCode() == 503) {
+        this->http->clearCookie();
+        emit addTableStatus(this->objectName().toInt(), article.article, QString("%1 503 ответ. Чистим Cookie.").arg(this->siteUrl), "orange");
+        QThread::sleep(3);
+        goto reSearch;
     }
     return "";
 }

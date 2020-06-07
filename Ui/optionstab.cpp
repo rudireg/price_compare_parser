@@ -125,20 +125,57 @@ void OptionsTab::initDomainList()
     domainArstools->title = "arstools.ru";
     this->domains.append(domainArstools);
 
-//    Вот список сайтов которые нужно добавлять в первую очередь
+    DomainToParse * domainServiceQuipment = new DomainToParse;
+    domainServiceQuipment->url = "https://www.servicequipment.ru/";
+    domainServiceQuipment->title = "www.servicequipment.ru";
+    this->domains.append(domainServiceQuipment);
 
-//    https://arstools.ru/
-//    https://www.servicequipment.ru/
-//    http://arkudateh.ru/
-//    http://glav-mech.ru/
-//    https://garo24.ru/
-//    http://optima-tools.ru/
-//    https://mnogotools.ru/
-//    https://www.maslosmenka.ru/
-//    http://www.top-tul.ru/
-//    https://avtomag96.ru/
-//    https://odas-ekb.ru/
-//    http://avtokluch-market.ru/
+    DomainToParse * domainArkudateh = new DomainToParse;
+    domainArkudateh->url = "http://arkudateh.ru/";
+    domainArkudateh->title = "arkudateh.ru";
+    this->domains.append(domainArkudateh);
+
+    DomainToParse * domainGaro24 = new DomainToParse;
+    domainGaro24->url = "https://garo24.ru/";
+    domainGaro24->title = "garo24.ru";
+    this->domains.append(domainGaro24);
+
+    DomainToParse * domainOptimaTools = new DomainToParse;
+    domainOptimaTools->url = "http://optima-tools.ru/";
+    domainOptimaTools->title = "optima-tools.ru";
+    this->domains.append(domainOptimaTools);
+
+    DomainToParse * domainMnogotools = new DomainToParse;
+    domainMnogotools->url = "https://mnogotools.ru/";
+    domainMnogotools->title = "mnogotools.ru (Медленный)";
+    this->domains.append(domainMnogotools);
+
+    DomainToParse * domainMasloSmenka = new DomainToParse;
+    domainMasloSmenka->url = "https://www.maslosmenka.ru/";
+    domainMasloSmenka->title = "www.maslosmenka.ru";
+    this->domains.append(domainMasloSmenka);
+
+    DomainToParse * domainTopTul = new DomainToParse;
+    domainTopTul->url = "http://top-tul.ru/";
+    domainTopTul->title = "top-tul.ru";
+    this->domains.append(domainTopTul);
+
+    DomainToParse * domainAvtomag96 = new DomainToParse;
+    domainAvtomag96->url = "https://avtomag96.ru/";
+    domainAvtomag96->title = "avtomag96.ru";
+    this->domains.append(domainAvtomag96);
+
+    DomainToParse * domainOdasEkb = new DomainToParse;
+    domainOdasEkb->url = "https://odas-ekb.ru/";
+    domainOdasEkb->title = "odas-ekb.ru";
+    this->domains.append(domainOdasEkb);
+
+    DomainToParse * domainAvtokluchMarket = new DomainToParse;
+    domainAvtokluchMarket->url = "http://avtokluch-market.ru/";
+    domainAvtokluchMarket->title = "avtokluch-market.ru";
+    this->domains.append(domainAvtokluchMarket);
+
+    // Нет прайса http://glav-mech.ru/
 }
 
 /**
@@ -155,5 +192,10 @@ QWidget* OptionsTab::createDomainOptions()
     }
 
     box->setLayout(layout);
-    return box;
+
+    QScrollArea* scrollArea = new QScrollArea;
+    scrollArea->setBackgroundRole(QPalette::Light);
+    scrollArea->setWidget(box);
+
+    return scrollArea;
 }

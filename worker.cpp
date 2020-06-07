@@ -77,6 +77,26 @@ void Worker::initParsers(QList<Site> sites)
             parser->setUsdRate(this->valuteRate->usd);
         } else if (site.url == "https://arstools.ru/") {
             parser = new Arstools;
+        } else if (site.url == "https://www.servicequipment.ru/") {
+            parser = new ServiceQuipment;
+        } else if (site.url == "http://arkudateh.ru/") {
+            parser = new Arkudateh;
+        } else if (site.url == "https://garo24.ru/") {
+            parser = new Garo24;
+        } else if (site.url == "http://optima-tools.ru/") {
+            parser = new OptimaTools;
+        } else if (site.url == "https://mnogotools.ru/") {
+            parser = new Mnogotools;
+        } else if (site.url == "https://www.maslosmenka.ru/") {
+            parser = new MasloSmenka;
+        } else if (site.url == "http://top-tul.ru/") {
+            parser = new TopTul;
+        } else if (site.url == "https://avtomag96.ru/") {
+            parser = new Avtomag96;
+        } else if (site.url == "https://odas-ekb.ru/") {
+            parser = new OdasEkb;
+        } else if (site.url == "http://avtokluch-market.ru/") {
+            parser = new AvtokluchMarket;
         } else {
             parser = nullptr;
         }

@@ -20,6 +20,7 @@ void Parser::process(Article &article)
     this->siteIndex = this->findSite(article.sites, this->siteUrl);
     emit addTableStatus(this->objectName().toInt(), article.article, QString("Парсим %1").arg(this->siteUrl), "green");
 
+    article.article = article.article.trimmed();
     // search
     QString inb = this->search(article);
     if (inb.isEmpty()) {
@@ -29,7 +30,7 @@ void Parser::process(Article &article)
         return;
     }
     // find product block
-    QString block = this->findBlock(inb, article.article);
+    QString block = this->findBlock(inb, article.article.trimmed());
     if (block.isEmpty()) {
         article.sites[this->siteIndex].parserStatus = ParserStatus::WARNING_ARTICLE_NOT_FOUND;
         article.sites[this->siteIndex].errorMessage = "Артикул не найден";

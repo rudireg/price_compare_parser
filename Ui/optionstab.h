@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 #include <QLineEdit>
 #include <QLabel>
+#include <QScrollArea>
 
 struct DomainToParse {
     QString url;

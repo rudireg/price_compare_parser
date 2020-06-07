@@ -1,16 +1,15 @@
-#ifndef SPECIALTOOLRU_H
-#define SPECIALTOOLRU_H
+#ifndef GARO24_H
+#define GARO24_H
 
 #include <QObject>
-#include <QThread>
 #include <QRegExp>
 #include "parser.h"
 
-class SpecialToolRu : public Parser
+class Garo24 : public Parser
 {
     Q_OBJECT
 public:
-    explicit SpecialToolRu(QObject *parent = nullptr);
+    explicit Garo24(QObject *parent = nullptr);
     QString search(Article &article) override;
     QString findBlock(QString inbuf, QString article) override;
     float parsePrice(RString block) override;
@@ -18,6 +17,7 @@ public:
 protected:
     QList<QString> splitBlocks(RString inbuf);
     QString findArticleInBlock(const QList<QString> blocks, QString article);
+    QString gotoProductPage(RString block);
 };
 
-#endif // SPECIALTOOLRU_H
+#endif // GARO24_H
