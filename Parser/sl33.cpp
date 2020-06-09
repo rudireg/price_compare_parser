@@ -106,29 +106,81 @@ QList<QString> Sl33::splitBlocks(RString inbuf)
  */
 QString Sl33::findArticleInBlock(const QList<QString> blocks, QString article)
 {
-    QString clearArticle = article;
-    clearArticle.replace("-", "");
+
     foreach(QString block, blocks) {
         RString tmp = block;
         QString url = tmp.cut_str_to_str("href=\"", "\"");
         if (!url.isEmpty()) {
             if (this->http->get(url)) {
                 RString inbuf = this->http->inbuffQString();
-                RString title = inbuf.cut_str_to_str("<h1 itemprop=\"name\">", "</h1>");
-                if (title.contains(article) || title.contains(clearArticle)) {
+                QString result = this->findCartArticleInBlock(inbuf, article, true);
+                if (!result.isEmpty()) {
                     return QString(inbuf);
                 }
-                title = inbuf.cut_str_to_str("Артикул: <span>", "</span>");
-                if (title.contains(article) || title.contains(clearArticle)) {
+
+                result = this->findCartArticleInBlock(inbuf, article + "\n");
+                if (!result.isEmpty()) {
                     return QString(inbuf);
                 }
-                title = inbuf.cut_str_to_str("<form id=\"cart-form\"", "</form>");
-                title = title.cut_str_to_str("<p style=\"text-align: justify;\">", "</p>");
-                if (title.contains(article) || title.contains(clearArticle)) {
+
+                result = this->findCartArticleInBlock(inbuf, article + " ");
+                if (!result.isEmpty()) {
+                    return QString(inbuf);
+                }
+
+                result = this->findCartArticleInBlock(inbuf, article + ".");
+                if (!result.isEmpty()) {
+                    return QString(inbuf);
+                }
+
+                result = this->findCartArticleInBlock(inbuf, article + ",");
+                if (!result.isEmpty()) {
+                    return QString(inbuf);
+                }
+
+                result = this->findCartArticleInBlock(inbuf, article + "<");
+                if (!result.isEmpty()) {
+                    return QString(inbuf);
+                }
+
+                QString clearArticle = article;
+                clearArticle.replace("-", "");
+                result = this->findCartArticleInBlock(inbuf, clearArticle);
+                if (!result.isEmpty()) {
                     return QString(inbuf);
                 }
             }
         }
     }
+    return "";
+}
+
+/**
+ * @brief Sl33::findCartArticleInBlock
+ * @param inbuf
+ * @param article
+ * @return
+ */
+QString Sl33::findCartArticleInBlock(RString inbuf, QString article, bool restrict)
+{
+    RString title = inbuf.cut_str_to_str("Артикул: <span>", "</span>");
+    if (title == article) {
+        return QString(inbuf);
+    }
+    if (true == restrict) {
+        return "";
+    }
+
+    title = inbuf.cut_str_to_str("<h1 itemprop=\"name\">", "</h1>");
+    if (title.contains(article)) {
+        return QString(inbuf);
+    }
+
+    title = inbuf.cut_str_to_str("<form id=\"cart-form\"", "</form>");
+    title = title.cut_str_to_str("<p style=\"text-align: justify;\">", "</p>");
+    if (title.contains(article)) {
+        return QString(inbuf);
+    }
+
     return "";
 }

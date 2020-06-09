@@ -45,7 +45,10 @@ QString Scan2::findBlock(QString inbuf, QString article)
  */
 float Scan2::parsePrice(RString block)
 {
-    RString priceStr = block.cut_str_to_str("<p class=\"price\">", "</p>");
+    RString priceStr = block.cut_str_to_str("<span class=\"price-new\">", "</span>");
+    if (priceStr.isEmpty()) {
+        priceStr = block.cut_str_to_str("<p class=\"price\">", "</p>");
+    }
     if (priceStr.isEmpty()) return 0;
     if (priceStr.contains(",")) {
         priceStr = priceStr.cut_to_str(",");

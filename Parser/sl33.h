@@ -17,6 +17,7 @@ public:
 protected:
     QList<QString> splitBlocks(RString inbuf);
     QString findArticleInBlock(const QList<QString> blocks, QString article);
+    QString findCartArticleInBlock(const RString inbuf, QString article, bool restrict = false);
 };
 
 #endif // SL33_H

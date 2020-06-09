@@ -89,7 +89,7 @@ QString Imperiyaavto43::findBlock(QString inbuf, QString article)
  */
 float Imperiyaavto43::parsePrice(RString block)
 {
-    RString priceStr = block.cut_str_to_str("\"price\":\"", "\",\"");
+    RString priceStr = block.cut_str_to_str("<span class=\"cs-goods-price__value cs-goods-price__value_type_current", "<span");
     if (priceStr.isEmpty()) return 0;
     if (priceStr.contains(",")) {
         priceStr = priceStr.cut_to_str(",");
@@ -97,16 +97,6 @@ float Imperiyaavto43::parsePrice(RString block)
     QRegExp rx("(\\D+)");
     priceStr.replace(rx, "");
     if (priceStr.isEmpty()) return 0;
-
-    RString priceStrDiscount = block.cut_str_to_str("\"discountedPrice\":\"", "\",\"");
-    if (priceStrDiscount.isEmpty()) {
-        priceStrDiscount = "0";
-    } else {
-        priceStrDiscount.replace(rx, "");
-    }
-    if (priceStrDiscount.toInt() > 0 && priceStrDiscount.toInt() < priceStr.toInt()) {
-        priceStr = priceStrDiscount;
-    }
 
     return priceStr.toFloat();
 }
@@ -119,7 +109,7 @@ float Imperiyaavto43::parsePrice(RString block)
  */
 QString Imperiyaavto43::parseProductUrl(RString block, QString domain)
 {
-    QString url = block.cut_str_to_str("\"url\":\"", "\",\"");
+    QString url = block.cut_str_to_str("<a class=\"cs-goods-title\" href=\"", "\"");
     if (url.isEmpty()) return "";
     if (!url.startsWith("http")) {
         if (domain.endsWith("/")) {
@@ -139,13 +129,13 @@ QList<QString> Imperiyaavto43::splitBlocks(RString inbuf)
 {
     inbuf.replace("&#34;", "\"");
     QList<QString> blocks;
-    QString startBlock = "__typename\":\"ProductList";
-    QString endBlock = "noscript id='init-data'";
+    QString startBlock = "<ul class=\"cs-product-gallery__list\">";
+    QString endBlock = "</ul>";
     if (!inbuf.contains(startBlock) || !inbuf.contains(endBlock)) {
         return blocks;
     }
     inbuf = inbuf.cut_str_to_str(startBlock, endBlock);
-    QString boudoir = ",\"Product:";
+    QString boudoir = "data-qaid=\"product-block\"";
     while (inbuf.contains(boudoir)) {
         inbuf.erase_to(boudoir);
         inbuf.erase_data(1);
@@ -172,7 +162,7 @@ QString Imperiyaavto43::findArticleInBlock(const QList<QString> blocks, QString 
 {
     foreach(QString block, blocks) {
         RString tmp = block;
-        QString title = tmp.cut_str_to_str(",\"name\":\"", "\",\"");
+        QString title = tmp.cut_str_to_str("<div class=\"cs-product-gallery__sku", "</div>");
         if (title.contains(article)) {
             return block;
         }
@@ -180,7 +170,7 @@ QString Imperiyaavto43::findArticleInBlock(const QList<QString> blocks, QString 
 
     foreach(QString block, blocks) {
         RString tmp = block;
-        QString title = tmp.cut_str_to_str("\"sku\":\"", "\",\"");
+        QString title = tmp.cut_str_to_str("<div class=\"cs-product-gallery__title", "</div>");
         if (title.contains(article)) {
             return block;
         }
