@@ -7,8 +7,36 @@ OptionsTab::OptionsTab(QWidget *parent) : QWidget(parent)
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addLayout(this->createCaptchaOption());
+    // Select, Deselect all checkboxs
+    mainLayout->addWidget(this->createSelectDeselectCheckboxOption());
     mainLayout->addWidget(this->createDomainOptions());
     setLayout(mainLayout);
+}
+
+/**
+ * @brief OptionsTab::createSelectDeselectCheckboxOption
+ * @return
+ */
+QWidget* OptionsTab::createSelectDeselectCheckboxOption()
+{
+    this->selector = new QCheckBox;
+    selector->setText("Выбрать все сайты");
+    QObject::connect(this->selector, &QCheckBox::clicked, this, &OptionsTab::selectDeselectSites);
+    return selector;
+}
+
+/**
+ * @brief OptionsTab::selectDeselectSites
+ */
+void OptionsTab::selectDeselectSites()
+{
+    bool isChecked = false;
+    if (this->selector->isChecked()) {
+        isChecked = true;
+    }
+    foreach(DomainToParse *domain, this->domains) {
+        domain->checkbox->setChecked(isChecked);
+    }
 }
 
 /**

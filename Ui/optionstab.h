@@ -28,12 +28,16 @@ public:
     QList<DomainToParse*> domains;
     QLineEdit *captchaClientKey;
 
+public slots:
+    void selectDeselectSites();
 signals:
 
 protected:
+    QCheckBox *selector;
     QWidget *createDomainOptions();
     void initDomainList();
     QLayout *createCaptchaOption();
+    QWidget *createSelectDeselectCheckboxOption();
 };
 
 #endif // OPTIONSTAB_H
